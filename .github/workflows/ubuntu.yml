@@ -28,3 +28,8 @@ jobs:
         run: |
           websockify -D --web=/usr/share/novnc/ 6080 localhost:5901
           nohup novnc_proxy --vnc localhost:5901 &
+          
+      - name: Get External IP Address
+        run: |
+          curl -s ifconfig.me
+
