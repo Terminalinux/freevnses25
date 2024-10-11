@@ -1,0 +1,30 @@
+name: Ubuntu noVNC
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xfce4 xfce4-goodies xorg dbus-x11 x11-xserver-utils
+          sudo apt-get install -y tigervnc-standalone-server tigervnc-common
+          sudo apt-get install -y novnc websockify
+          
+      - name: Setup VNC Server
+        run: |
+          mkdir -p ~/.vnc
+          echo "password" | vncpasswd -f > ~/.vnc/passwd
+          chmod 600 ~/.vnc/passwd
+          vncserver :1 -geometry 1920x1080 -depth 24
+          vncserver -kill :1
+          vncserver :1
+
+      - name: Start noVNC
+        run: |
+          websockify -D --web=/usr/share/novnc/ 6080 localhost:5901
+          nohup novnc_proxy --vnc localhost:5901 &
