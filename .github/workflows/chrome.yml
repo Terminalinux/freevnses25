@@ -1,0 +1,30 @@
+name: Ubuntu noVNC Chrome
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up Docker
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker.io
+
+      - name: Run Chrome noVNC Container
+        run: |
+          docker run \
+            --name chrome-novnc \
+            -e PORT=8080 \
+            -p 8080:8080 \
+            -e VNC_PASS=CHANGE_IT \
+            -d vital987/chrome-novnc:latest
+
+      - name: Get noVNC URL
+        run: |
+          echo "Access the noVNC session at http://localhost:8080/vnc.html"
+      - name: Get External IP Address
+        run: |
+          curl -s ifconfig.me
