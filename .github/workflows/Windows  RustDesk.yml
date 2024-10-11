@@ -18,3 +18,7 @@ jobs:
 
       - name: Time Counter
         run: python time.py
+      - name: Disable Sleep Mode
+        run: powercfg -change -standby-timeout-ac 0
+      - name: Disable Sleep Mode 2
+        run: powercfg -change -monitor-timeout-ac 0
