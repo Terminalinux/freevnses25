@@ -1,0 +1,21 @@
+name: Ubuntu - RustDesk
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Start Building...
+    runs-on: ubuntu-latest
+    timeout-minutes: 99999999
+    
+    steps:
+      - name: Downloading & Installing Essentials
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y <necessary-packages>
+      - name: Log In To AnyDesk
+        run: bash show.sh
+
+      - name: Time Counter
+        run: python time.py
